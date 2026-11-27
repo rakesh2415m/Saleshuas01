@@ -242,14 +242,16 @@ header.top .wrap{display:flex;align-items:center;gap:12px 28px;padding-block:12p
 
 /* PIXEL RUN band */
 .runband{position:relative;border-block:1px solid var(--line);background:#fff;overflow:hidden}
-.pix{display:grid;grid-template-columns:repeat(var(--cols,48),1fr);gap:0;height:200px}
-.pix i{background:#F3F2FA;opacity:.0;transition:background .6s,opacity .6s;border-right:1px solid #fff;border-bottom:1px solid #fff}
-.pix i.dim{opacity:.6}
-.pix i.lit{opacity:1}
+.pix{display:grid;grid-template-columns:repeat(var(--cols,48),1fr);gap:0;height:200px;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.pix i{background:#F1F0FA;opacity:0;transition:background 1.4s ease,opacity 1.4s ease;border-right:1px solid #fff;border-bottom:1px solid #fff}
+.pix i.dim{opacity:.45}
+.pix i.lit{opacity:1;transition:background .15s,opacity .15s}
 .runner{position:absolute;bottom:6px;left:-180px;width:170px;height:170px;pointer-events:none;z-index:2}
 .runner img{width:100%;height:100%;object-fit:contain;animation:hop .45s ease-in-out infinite alternate}
 @keyframes hop{to{transform:translateY(-8px) rotate(2deg)}}
-.runband .cap{position:absolute;left:var(--gutter-l);top:14px;font-size:12px;color:var(--ink-3);z-index:3}
+.runband .cap{position:absolute;left:var(--gutter-l);top:-28px;font-size:12px;color:var(--ink-3);z-index:3}
+.runband{margin-top:40px;overflow:visible}
+.runband .clip{overflow:hidden;position:relative}
 
 /* HAUSI AGENT (Hostinger purple) */
 .agent{background:var(--night);color:#fff;position:relative;overflow:hidden}
@@ -352,7 +354,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
 <div class="promo"><div class="wrap"><span><b>Founding builder offer:</b> 35% off for 2 years, for the first 10 builders</span><a href="#pricing">See plans →</a></div></div>
 
 <header class="top"><div class="wrap">
-  <a class="logo" href="#top"><img src="img/i3d-house.webp" alt="" width="34" height="34">saleshaus</a>
+  <a class="logo" href="#top">saleshaus</a>
   <nav class="nav" aria-label="Main">
     <a href="#close">Close</a><a href="#keys">Keys</a><a href="#hausi">Hausi AI</a><a href="#pricing">Pricing</a><a href="#faq">Help</a>
   </nav>
@@ -536,8 +538,8 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
 <!-- PIXEL RUN -->
 <div class="runband" id="runband" aria-hidden="true">
   <span class="cap mono">▍from enquiry to keys</span>
-  <div class="pix" id="pix"></div>
-  <div class="runner" id="runner"><img src="img/hausi-run.webp" alt=""></div>
+  <div class="clip"><div class="pix" id="pix"></div>
+  <div class="runner" id="runner"><img src="img/hausi-run.webp" alt=""></div></div>
 </div>
 
 <!-- HAUSI AGENT -->
@@ -703,12 +705,12 @@ new IntersectionObserver((es,o)=>{if(es[0].isIntersecting&&!typing){typing=true;
 /* pixel run */
 const pix=document.getElementById('pix'),band=document.getElementById('runband'),runner=document.getElementById('runner');
 const cols=innerWidth<700?20:48,rows=8;pix.style.setProperty('--cols',cols);
-const cells=[];for(let i=0;i<cols*rows;i++){const c=document.createElement('i');const r=Math.random();if(r<.25)c.classList.add('dim');pix.appendChild(c);cells.push(c)}
-const pal=['#5B4FE9','#8F86F5','#C9C4FA','#F06BA8','#4FA3F7','#E0A92E','#B7A6FF','#1F8A4C'];
-let runT0=null,running=false;
-function runFrame(t){if(!runT0)runT0=t;const W=band.clientWidth,p=Math.min(1,(t-runT0)/5200),x=-180+p*(W+360);runner.style.transform=`translateX(${x}px)`;
- const col=Math.floor((x+60)/W*cols);for(let r=0;r<rows;r++){for(let dc=-2;dc<=0;dc++){const cc=col+dc;if(cc<0||cc>=cols)continue;if(Math.random()<.55){const c=cells[r*cols+cc];if(!c.classList.contains('lit')){c.classList.add('lit');c.style.background=pal[(Math.random()*pal.length)|0]}}}}
- if(p<1)requestAnimationFrame(runFrame);else{running=false;setTimeout(()=>cells.forEach(c=>{c.classList.remove('lit');c.style.background=''}),2600)}}
+const cells=[];for(let i=0;i<cols*rows;i++){const c=document.createElement('i');const r=Math.random();if(r<.12)c.classList.add('dim');pix.appendChild(c);cells.push(c)}
+const pal=['#5B4FE9','#8F86F5','#C9C4FA','#E3E0FD'];
+let runT0=null,running=false,lastCol=-1;
+function runFrame(t){if(!runT0)runT0=t;const W=band.clientWidth,p=Math.min(1,(t-runT0)/6500),x=-180+p*(W+360);runner.style.transform=`translateX(${x}px)`;
+ const col=Math.floor((x+70)/W*cols);if(col!==lastCol){lastCol=col;for(let r=2;r<rows;r++){const cc=col-1;if(cc<0||cc>=cols)continue;if(Math.random()<.32){const c=cells[r*cols+cc];c.classList.add('lit');c.style.background=pal[(Math.random()*pal.length)|0];setTimeout(()=>{c.classList.remove('lit');c.style.background=''},700+Math.random()*600)}}}
+ if(p<1)requestAnimationFrame(runFrame);else{running=false;lastCol=-1}}
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&!running&&!reduce){running=true;runT0=null;requestAnimationFrame(runFrame)}},{threshold:.6}).observe(band);
 
 /* accordion */
