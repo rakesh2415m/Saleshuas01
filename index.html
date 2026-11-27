@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Saleshaus: Sales and Post-Sales CRM for Indian real estate builders, with Hausi AI built in.">
+<meta property="og:title" content="Saleshaus: sell homes faster, hand over keys smoother">
+<meta property="og:description" content="Sales and Post-Sales CRM for Indian real estate builders, with Hausi AI built in.">
+<meta property="og:image" content="img/hausi-wave.webp">
+<link rel="icon" href="img/i3d-house.webp" type="image/webp">
+<title>Saleshaus: CRM for real estate builders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ink:#14122B; --ink-2:#4E4B6B; --ink-3:#7C7998;
+  --paper:#FFFFFF; --mist:#F5F4FF; --line:#E7E5F5; --grid:rgba(91,79,233,.07);
+  --vio:#5B4FE9; --vio-d:#4335D6; --vio-dd:#2A1F9A; --vio-l:#C9C4FA; --vio-xl:#EEEDFD;
+  --night:#0B0920; --night-2:#16132F; --night-3:#221E44; --night-line:rgba(255,255,255,.09);
+  --gold:#E0A92E; --green:#1F8A4C; --pink:#F06BA8; --sky:#4FA3F7;
+  --gutter-l:max(16px, env(safe-area-inset-left, 0px)); --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--night)}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{text-wrap:balance;margin:0}
+.mono{font-family:'DM Mono',ui-monospace,Menlo,monospace}
+.wrap{max-width:1200px;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 26px;border-radius:10px;font-weight:800;font-size:16px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;transition:transform .2s ease,box-shadow .2s ease,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-vio{background:var(--vio);color:#fff;box-shadow:0 10px 30px rgba(91,79,233,.35)}
+.btn-vio:hover{background:var(--vio-d);box-shadow:0 14px 36px rgba(91,79,233,.45)}
+.btn-white{background:#fff;color:var(--vio-d)}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.btn-line{background:transparent;color:var(--vio-d);border:2px solid var(--vio)}
+.eyebrow{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--vio)}
+.eyebrow::before{content:"";display:inline-block;width:8px;height:14px;background:currentColor;margin-right:8px;vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.h2{font-size:clamp(32px,4.4vw,54px);line-height:1.04;font-weight:700;letter-spacing:-.035em}
+.lead{font-size:clamp(17px,1.5vw,19px);color:var(--ink-2);max-width:60ch}
+
+[hidden]{display:none!important}
+/* reveal */
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+
+/* promo + header */
+.promo{background:linear-gradient(90deg,#3A2FC0,#5B4FE9 50%,#3A2FC0);color:#fff;font-size:14px;font-weight:600}
+.promo .wrap{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;align-items:center;padding-block:9px;text-align:center}
+.promo a{color:#fff;font-weight:800}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(11,9,32,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--night-line);color:#fff}
+header.top .wrap{display:flex;align-items:center;gap:12px 28px;padding-block:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:25px;letter-spacing:-.045em;text-decoration:none;color:#fff;display:flex;align-items:center;gap:8px}
+.logo img{width:34px;height:34px}
+.nav{display:flex;gap:4px 22px;flex:1 1 auto;flex-wrap:wrap;font-size:15px;font-weight:600}
+.nav a{text-decoration:none;color:#D9D6F2;padding:6px 0}
+.nav a:hover{color:#fff}
+.hdr-cta{display:flex;gap:10px;align-items:center}
+.hdr-cta .login{color:#fff;text-decoration:none;font-weight:700;padding:0 8px}
+.hdr-cta .btn{min-height:42px;padding:0 18px;font-size:15px}
+.ask-pill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(160,150,255,.55);color:#fff;font-weight:700;font-size:14px;background:rgba(91,79,233,.15);cursor:pointer;font-family:inherit}
+@media (max-width:760px){.nav{order:3;flex-basis:100%;gap:4px 16px;font-size:14px}.hdr-cta .login{display:none}.ask-pill{display:none}}
+
+/* HERO */
+.hero{position:relative;background:var(--night);color:#fff;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:120%;background:radial-gradient(50% 50% at 50% 70%,rgba(91,79,233,.55),rgba(91,79,233,0) 70%),radial-gradient(30% 30% at 85% 20%,rgba(240,107,168,.18),transparent 70%),radial-gradient(30% 30% at 12% 30%,rgba(79,163,247,.16),transparent 70%);z-index:-1;animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.06);opacity:.85}}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--night-line) 1px,transparent 1px),linear-gradient(90deg,var(--night-line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(70% 60% at 50% 40%,#000 30%,transparent 80%);z-index:-1;opacity:.5}
+.hero .wrap{position:relative;padding-block:clamp(56px,8vw,104px) 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:6px 8px 6px 6px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);font-size:14px;font-weight:600;color:#E6E3FF;text-decoration:none}
+.chip img{width:28px;height:28px}
+.chip b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.1)}
+.hero h1{font-size:clamp(42px,7.2vw,92px);line-height:.98;font-weight:800;letter-spacing:-.05em;max-width:14ch}
+.hero h1 .grad{background:linear-gradient(90deg,#B7B0FF,#fff 40%,#F7B5D6 70%,#B7B0FF);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.hero p.sub{font-size:clamp(17px,1.6vw,20px);color:#C9C6E6;max-width:56ch;margin:0}
+.offer{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px}
+.offer .was{color:#8F8BB8;text-decoration:line-through;font-size:18px}
+.offer .now{font-size:44px;font-weight:800;letter-spacing:-.03em}
+.offer .per{color:#C9C6E6}
+.badge-off{position:relative;display:inline-grid;place-items:center;padding:8px 14px;border-radius:8px;background:#FF5C7A;color:#fff;font-weight:800;font-size:15px;transform:rotate(-4deg);box-shadow:0 10px 24px rgba(255,92,122,.35)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.hero-note{font-size:14px;color:#A6A2CF;display:flex;gap:6px 18px;flex-wrap:wrap;justify-content:center}
+.hero-note span::before{content:"✓ ";color:#9C93FF;font-weight:800}
+.floaty{position:absolute;width:clamp(70px,9vw,140px);pointer-events:none;filter:drop-shadow(0 24px 30px rgba(0,0,0,.45));will-change:transform}
+.floaty img{width:100%;animation:bob 6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-16px) rotate(5deg)}}
+@media (max-width:760px){.floaty{display:none}}
+
+/* PEEK (GitHub-style) */
+.peek-zone{position:relative;height:clamp(150px,18vw,210px);margin-top:28px;width:100%;display:flex;justify-content:center}
+.peek{position:relative;width:clamp(220px,26vw,300px);height:100%;overflow:hidden;cursor:pointer}
+.peek canvas,.peek .peek-img{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.peek .peek-img{object-fit:cover;object-position:50% 8%;transform:translateY(32%);transition:transform .6s cubic-bezier(.3,1.5,.5,1)}
+.peek-hint{position:absolute;right:calc(50% - clamp(220px,26vw,300px)/2 - 120px);top:22%;font-size:12px;color:#A6A2CF;transform:rotate(-6deg);pointer-events:none}
+@media (max-width:760px){.peek-hint{display:none}}
+.rainbow{height:4px;width:100%;background:linear-gradient(90deg,var(--sky) 0 16%,var(--green) 16% 33%,var(--vio) 33% 50%,#B7A6FF 50% 66%,var(--pink) 66% 83%,var(--gold) 83%);position:relative;z-index:2}
+.spark{position:fixed;width:44px;height:44px;pointer-events:none;z-index:80;will-change:transform,opacity}
+
+/* WALKTHROUGH */
+.walk{background:var(--mist);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;position:relative}
+.walk .wrap{padding-block:48px 40px;display:flex;flex-direction:column;gap:22px;align-items:center}
+.pixels-corner{position:absolute;top:16px;width:14px;height:14px;background:var(--vio);box-shadow:10px 0 0 #B7A6FF,0 10px 0 var(--pink)}
+.app{width:100%;max-width:1100px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 30px 80px rgba(42,31,154,.14);overflow:hidden;display:grid;grid-template-columns:220px minmax(0,1fr) minmax(0,1fr);min-height:440px;border-left:4px solid var(--vio)}
+.app-side{background:#FAFAFF;border-right:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.app-side .it{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;color:var(--ink-2);font-weight:600}
+.app-side .it.on{background:var(--vio-xl);color:var(--vio-d)}
+.app-side .it i{width:16px;height:16px;border-radius:4px;border:2px solid currentColor;opacity:.7}
+.app-side .proj{margin-top:14px;font-size:12px;color:var(--ink-3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.06em}
+.app-col{padding:18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px;min-width:0}
+.app-col:last-child{border-right:0}
+.app-h{font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--vio-xl);color:var(--vio-d);white-space:nowrap}
+.tag.g{background:#E3F5EA;color:var(--green)}.tag.o{background:#FFF2D9;color:#9A6A00}.tag.p{background:#FDE7F1;color:#B5306F}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.card small{color:var(--ink-3)}
+.msg{align-self:flex-end;max-width:90%;background:var(--vio-xl);border-radius:12px 12px 2px 12px;padding:10px 12px;font-size:14px}
+.msg.h{align-self:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px 12px 12px 2px;display:flex;gap:10px}
+.msg.h img{width:30px;height:30px;flex:none}
+.log{font-size:13px;color:var(--ink-2);display:flex;flex-direction:column;gap:6px}
+.log span::before{content:"◆ ";color:var(--vio)}
+.score{display:flex;align-items:center;gap:12px}
+.ring{--p:0;width:56px;height:56px;border-radius:50%;background:conic-gradient(var(--vio) calc(var(--p)*1%),var(--vio-xl) 0);display:grid;place-items:center;font-weight:800;font-size:16px;transition:--p 1s}
+.ring::before{content:"";position:absolute}
+.ring b{width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.stage{transition:opacity .45s ease,transform .45s ease}
+.stage.out{opacity:0;transform:translateY(8px)}
+.typing::after{content:"▍";animation:blink 1s steps(1) infinite;color:var(--vio)}
+.steps{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.steps button{font-family:inherit;font-size:15px;font-weight:600;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink-2);cursor:pointer;position:relative;overflow:hidden;min-height:44px}
+.steps button.on{color:var(--ink);border-color:var(--vio-l)}
+.steps button.on::after{content:"";position:absolute;left:0;bottom:0;height:3px;background:var(--vio);width:0;animation:fill var(--dur,5s) linear forwards}
+.steps.paused button.on::after{animation-play-state:paused}
+@keyframes fill{to{width:100%}}
+.steps .pause{width:44px;padding:0;display:grid;place-items:center}
+@media (max-width:900px){.app{grid-template-columns:minmax(0,1fr)}.app-side{display:none}.app-col{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* TICKER */
+.ticker{border-block:1px solid var(--line);background:#fff;position:relative;overflow:hidden}
+.ticker-row{display:flex;width:max-content;animation:marq 48s linear infinite}
+.ticker.paused .ticker-row{animation-play-state:paused}
+@keyframes marq{to{transform:translateX(-50%)}}
+.tk{display:flex;flex-direction:column;gap:2px;padding:16px 26px;border-right:1px solid var(--line);min-width:260px}
+.tk b{font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+.tk b img{width:26px;height:26px}
+.tk small{color:var(--ink-3);font-size:13px}
+.tk.stat b{font-family:'DM Mono',monospace;font-size:28px;color:var(--vio);font-weight:500}
+.tk.stat small{font-family:'DM Mono',monospace}
+.ticker .lbl{position:absolute;left:var(--gutter-l);top:-1px;transform:translateY(-100%);font-size:11px}
+.tick-pause{position:absolute;right:var(--gutter-r);top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;z-index:2}
+
+/* PRICING (Hostinger dark cards) */
+.pricing{background:var(--night);color:#fff;position:relative;overflow:hidden}
+.pricing::before{content:"";position:absolute;inset:auto -20% -40% -20%;height:70%;background:radial-gradient(50% 50% at 50% 50%,rgba(91,79,233,.35),transparent 70%)}
+.pricing .wrap{position:relative;padding-block:96px;display:flex;flex-direction:column;align-items:center;gap:26px;text-align:center}
+.seg{display:inline-flex;padding:5px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--night-line)}
+.seg button{font-family:inherit;font-weight:700;font-size:15px;border:0;border-radius:999px;padding:10px 22px;background:transparent;color:#C9C6E6;cursor:pointer;min-height:44px}
+.seg button.on{background:#fff;color:var(--night)}
+.seg button small{color:#FF8FA6;font-weight:800;margin-left:6px}
+.assure{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;color:#C9C6E6;font-size:15px}
+.assure span{display:flex;align-items:center;gap:8px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;width:100%;align-items:start;text-align:left}
+.plan{position:relative;border-radius:20px;background:var(--night-2);border:1px solid var(--night-line);padding:28px;display:flex;flex-direction:column;gap:14px;transition:transform .3s ease,border-color .3s}
+.plan:hover{transform:translateY(-6px);border-color:rgba(160,150,255,.4)}
+.plan.pop{background:linear-gradient(180deg,#2A2470,#1A1640);border-color:rgba(160,150,255,.55);box-shadow:0 30px 80px rgba(91,79,233,.35)}
+.plan .off{position:absolute;right:20px;top:20px;padding:4px 10px;border-radius:6px;background:#FF5C7A;font-size:12px;font-weight:800}
+.plan .pi{width:84px;height:84px;margin:-10px 0 -6px -10px;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.plan:hover .pi{transform:translateY(-6px) rotate(-8deg) scale(1.06)}
+.plan h3{font-size:24px;font-weight:700}
+.plan .d{color:#B9B5DD;font-size:15px;min-height:46px}
+.plan .was{color:#8F8BB8;text-decoration:line-through}
+.plan .price{font-size:46px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.plan .price small{font-size:16px;font-weight:500;color:#B9B5DD;letter-spacing:0}
+.plan .bill{font-size:13px;color:#8F8BB8}
+.plan .btn{width:100%}
+.plan .btn-line{color:#fff;border-color:rgba(255,255,255,.35)}
+.plan ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:15px;color:#DEDBF5}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"✓";color:#9C93FF;font-weight:800}
+.plan .why{margin-top:6px;padding:14px;border-radius:12px;background:rgba(255,255,255,.06);font-size:14px;color:#DEDBF5}
+.plan .why b{color:#B7B0FF;display:block;font-size:13px;margin-bottom:2px}
+.fine{font-size:13px;color:#8F8BB8;max-width:70ch}
+
+/* STICKY TABS + feature blocks */
+.feat{position:relative;background:#fff}
+.tabs-sticky{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);z-index:30;display:flex;justify-content:center;align-items:flex-start;pointer-events:none;height:0}
+.tabs{pointer-events:auto;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 30px rgba(20,18,43,.12);transform:translateY(16px)}
+.tabs a{font-weight:700;font-size:15px;padding:9px 20px;border-radius:999px;text-decoration:none;color:var(--ink-2);transition:background .25s,color .25s}
+.tabs a.on{background:var(--night);color:#fff}
+@media (max-width:760px){.tabs-sticky{top:calc(env(safe-area-inset-top,0px) + 110px)}}
+.feat-head{padding-block:110px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.block{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,6vw,80px);align-items:center;padding-block:72px;scroll-margin-top:120px}
+.block.rev{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+.block.rev .mock{order:2}
+@media (max-width:900px){.block,.block.rev{grid-template-columns:minmax(0,1fr)}.block.rev .mock{order:0}}
+.block h3{font-size:clamp(30px,3.6vw,46px);line-height:1.06;letter-spacing:-.035em;font-weight:700}
+.block .txt{display:flex;flex-direction:column;gap:16px;min-width:0}
+.block .txt p{margin:0;color:var(--ink-2);font-size:18px}
+.block ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.block li{display:flex;gap:10px;align-items:flex-start}
+.block li img{width:34px;height:34px;flex:none;margin-top:-4px}
+.explore{display:flex;justify-content:space-between;align-items:center;padding-block:14px;border-bottom:1px solid var(--line);text-decoration:none;font-size:20px;font-weight:600;max-width:460px}
+.explore span{transition:transform .25s}
+.explore:hover span{transform:translateX(6px)}
+.mock{position:relative;border-radius:22px;padding:22px;min-height:400px;overflow:hidden;min-width:0}
+.mock.m1{background:linear-gradient(160deg,#EEF0FF,#DCD7FF)}
+.mock.m2{background:linear-gradient(160deg,#FFF4E2,#FDE3EF)}
+.mock.m3{background:linear-gradient(160deg,#1C1740,#3A2FB0)}
+.mock .float3d{position:absolute;width:110px;filter:drop-shadow(0 18px 22px rgba(20,12,90,.3));animation:bob 6s ease-in-out infinite}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;position:relative}
+.pcol{background:rgba(255,255,255,.65);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:300px}
+.pcol h4{margin:0;font-size:12px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);display:flex;justify-content:space-between}
+.ld{background:#fff;border-radius:10px;padding:10px;font-size:13px;box-shadow:0 4px 14px rgba(42,31,154,.08);display:flex;flex-direction:column;gap:4px}
+.ld b{font-size:14px}
+.ld .row{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.mover{position:absolute;width:calc((100% - 20px)/3 - 20px);animation:move 9s cubic-bezier(.6,0,.3,1) infinite;z-index:3;box-shadow:0 14px 30px rgba(42,31,154,.22);outline:2px solid var(--vio)}
+@keyframes move{0%,12%{left:10px;top:150px;transform:rotate(0)}22%{transform:rotate(-3deg)}35%,52%{left:calc((100% - 20px)/3 + 20px);top:150px;transform:rotate(0)}62%{transform:rotate(3deg)}75%,92%{left:calc(2*(100% - 20px)/3 + 30px);top:150px;transform:rotate(0)}100%{left:10px;top:150px;opacity:0}}
+/* KYC checklist */
+.kyc{background:#fff;border-radius:16px;padding:18px;box-shadow:0 20px 50px rgba(120,50,80,.12);display:flex;flex-direction:column;gap:10px;max-width:420px;position:relative;z-index:2}
+.kyc .krow{display:flex;align-items:center;gap:12px;font-size:14px;padding:10px;border-radius:10px;background:#FAFAFF}
+.kyc .box{width:22px;height:22px;border-radius:6px;border:2px solid var(--vio-l);display:grid;place-items:center;flex:none;color:#fff;font-size:13px;font-weight:800}
+.kyc .krow:nth-child(n) .box{animation:tick 8s infinite}
+.kyc .krow:nth-child(2) .box{animation-delay:.8s}.kyc .krow:nth-child(3) .box{animation-delay:1.6s}.kyc .krow:nth-child(4) .box{animation-delay:2.4s}.kyc .krow:nth-child(5) .box{animation-delay:3.2s}
+@keyframes tick{0%,8%{background:transparent;border-color:var(--vio-l)}12%,85%{background:var(--green);border-color:var(--green)}100%{background:transparent}}
+.kyc .box::after{content:"✓"}
+.mask{font-family:'DM Mono',monospace;color:var(--ink-3);margin-left:auto;font-size:12px}
+.stamp{position:absolute;right:28px;bottom:34px;z-index:3;width:130px;height:130px;border-radius:50%;border:4px solid var(--vio);color:var(--vio);display:grid;place-items:center;text-align:center;font-weight:800;font-size:14px;line-height:1.15;transform:rotate(-14deg) scale(0);background:rgba(255,255,255,.9);animation:stamp 8s infinite}
+@keyframes stamp{0%,48%{transform:rotate(-14deg) scale(1.6);opacity:0}54%{transform:rotate(-14deg) scale(1);opacity:1}88%{opacity:1;transform:rotate(-14deg) scale(1)}100%{opacity:0}}
+/* Hausi chat mock */
+.chat{display:flex;flex-direction:column;gap:12px;max-width:440px;position:relative;z-index:2}
+.bub{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:12px 14px;font-size:14px;max-width:88%}
+.bub.me{align-self:flex-end;background:#fff;color:var(--ink);border:0}
+.bub.hz{display:flex;gap:10px}
+.bub.hz img{width:34px;height:34px;flex:none}
+.chips2{display:flex;gap:8px;flex-wrap:wrap}
+.chips2 span{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff}
+
+/* PIXEL RUN band */
+.runband{position:relative;border-block:1px solid var(--line);background:#fff;overflow:hidden}
+.pix{display:grid;grid-template-columns:repeat(var(--cols,48),1fr);gap:0;height:200px}
+.pix i{background:#F3F2FA;opacity:.0;transition:background .6s,opacity .6s;border-right:1px solid #fff;border-bottom:1px solid #fff}
+.pix i.dim{opacity:.6}
+.pix i.lit{opacity:1}
+.runner{position:absolute;bottom:6px;left:-180px;width:170px;height:170px;pointer-events:none;z-index:2}
+.runner img{width:100%;height:100%;object-fit:contain;animation:hop .45s ease-in-out infinite alternate}
+@keyframes hop{to{transform:translateY(-8px) rotate(2deg)}}
+.runband .cap{position:absolute;left:var(--gutter-l);top:14px;font-size:12px;color:var(--ink-3);z-index:3}
+
+/* HAUSI AGENT (Hostinger purple) */
+.agent{background:var(--night);color:#fff;position:relative;overflow:hidden}
+.agent::before{content:"";position:absolute;inset:20% -20% -30%;background:radial-gradient(50% 50% at 50% 50%,rgba(91,79,233,.6),transparent 70%)}
+.agent .wrap{position:relative;padding-block:110px;display:flex;flex-direction:column;gap:36px}
+.agent-top{display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between}
+.agent-top .txt{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.agent-top .txt p{color:#C9C6E6;margin:0;font-size:18px;max-width:52ch}
+.agent .eyebrow{color:#B7B0FF}
+.hausi3d{flex:0 1 340px;min-width:0;aspect-ratio:1;position:relative;cursor:grab}
+.hausi3d canvas,.hausi3d img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.hausi3d .tip{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);font-size:12px;color:#A6A2CF;white-space:nowrap}
+.acc{display:flex;gap:12px;min-height:400px}
+.acc .ac{flex:1;min-width:0;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid var(--night-line);padding:22px;display:flex;flex-direction:column;gap:12px;cursor:pointer;transition:flex .6s cubic-bezier(.2,.8,.2,1),background .4s;overflow:hidden;position:relative}
+.acc .ac.on{flex:3.2;background:linear-gradient(160deg,#6A5EF2,#4335D6)}
+.acc .ac h4{margin:0;font-size:20px;font-weight:700;white-space:nowrap}
+.acc .ac .body{opacity:0;transform:translateY(10px);transition:opacity .4s .15s,transform .4s .15s;display:flex;flex-direction:column;gap:10px}
+.acc .ac.on .body{opacity:1;transform:none}
+.acc .ac .pose{position:absolute;right:-10px;bottom:-10px;width:150px;opacity:.85;transition:opacity .4s,transform .5s}
+.acc .ac.on .pose{opacity:1;transform:scale(1.15) translate(-10px,-8px)}
+.acc .ac:not(.on) .pose{opacity:.35}
+.acc .ac .q{align-self:flex-end;background:rgba(255,255,255,.88);color:var(--ink);border-radius:12px 12px 2px 12px;padding:10px 12px;font-size:14px;max-width:85%}
+.acc .ac .a{background:#fff;color:var(--ink);border-radius:12px 12px 12px 2px;padding:10px 12px;font-size:14px;max-width:85%;display:flex;gap:8px}
+.acc .ac .a img{width:26px;height:26px;flex:none}
+@media (max-width:900px){.acc{flex-direction:column;min-height:0}.acc .ac{min-height:84px}.acc .ac.on{flex:auto}.acc .ac h4{white-space:normal}.acc .ac .pose{width:110px}}
+.credits{display:flex;flex-wrap:wrap;gap:10px 22px;color:#C9C6E6;font-size:15px}
+.credits b{color:#fff}
+
+/* 3D grid */
+.icons{background:var(--mist)}
+.icons .wrap{padding-block:100px;display:flex;flex-direction:column;gap:36px}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.ic{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:8px;transition:transform .3s,box-shadow .3s}
+.ic:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(67,53,214,.14)}
+.ic img{width:96px;height:96px;margin:-10px 0 4px -10px;transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.ic:hover img{transform:translateY(-8px) rotate(-8deg) scale(1.08)}
+.ic b{font-size:19px}
+.ic span{color:var(--ink-2);font-size:15px}
+.roles{overflow:hidden;border-block:1px solid var(--line);background:#fff}
+.roles .row{display:flex;width:max-content;animation:marq 36s linear infinite}
+.roles span{padding:22px 34px;font-size:clamp(20px,2.4vw,30px);font-weight:700;letter-spacing:-.02em;color:#B4B0D6;white-space:nowrap}
+.roles span:nth-child(3n+1){color:var(--ink)}
+
+/* FAQ */
+.faq .wrap{padding-block:100px;max-width:920px;display:flex;flex-direction:column;gap:12px}
+.faq details{border:1px solid var(--line);border-radius:14px;padding:4px 20px;background:#fff;transition:box-shadow .3s}
+.faq details[open]{box-shadow:0 14px 40px rgba(67,53,214,.1)}
+.faq summary{cursor:pointer;list-style:none;font-weight:700;font-size:17px;padding:16px 0;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:24px;line-height:1;color:var(--vio);transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 16px;color:var(--ink-2)}
+.faq-head{display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.faq-head img{width:110px;height:110px;object-fit:contain;animation:bob 5s ease-in-out infinite}
+
+/* CTA */
+.cta{background:var(--night);color:#fff;position:relative;overflow:hidden;text-align:center}
+.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 110%,rgba(91,79,233,.75),transparent 70%)}
+.cta .wrap{position:relative;padding-block:110px 0;display:flex;flex-direction:column;align-items:center;gap:20px}
+.cta h2{font-size:clamp(38px,6vw,76px);line-height:1;letter-spacing:-.045em;font-weight:800;max-width:15ch}
+.cta p{color:#C9C6E6;margin:0;font-size:18px}
+.contact{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.contact .addr{font-family:'DM Mono',monospace;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid var(--night-line);user-select:all}
+.cta-stage{position:relative;width:min(720px,100%);height:280px;margin-top:20px}
+.cta-stage .m{position:absolute;left:50%;bottom:0;width:280px;transform:translateX(-50%)}
+.cta-stage .o{position:absolute;width:96px;filter:drop-shadow(0 20px 24px rgba(0,0,0,.4))}
+.cta-stage .o img{animation:bob 5s ease-in-out infinite}
+
+footer{background:#07061A;color:#A6A2CF;font-size:14px}
+footer .wrap{padding-block:56px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:28px}
+footer b{color:#fff;display:block;margin-bottom:10px}
+footer a{display:block;color:#A6A2CF;text-decoration:none;padding:3px 0}
+footer a:hover{color:#fff}
+footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-top:20px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* Ask Hausi floating bar */
+.askbar{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(140%);z-index:70;width:min(560px,calc(100% - 32px));display:flex;align-items:center;gap:8px;transition:transform .5s cubic-bezier(.2,.9,.2,1)}
+.askbar.show{transform:translateX(-50%)}
+.askbar .bar{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:6px 6px 6px 8px;border-radius:999px;background:#fff;border:2px solid transparent;background-image:linear-gradient(#fff,#fff),linear-gradient(90deg,var(--vio),var(--pink),var(--sky));background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 18px 40px rgba(20,18,43,.25);cursor:pointer;font-family:inherit;text-align:left}
+.askbar .bar img{width:36px;height:36px;flex:none}
+.askbar .q{flex:1;min-width:0;font-size:15px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .3s,transform .3s}
+.askbar .q.swap{opacity:0;transform:translateY(8px)}
+.askbar .go{width:40px;height:40px;border-radius:50%;background:var(--vio);color:#fff;display:grid;place-items:center;flex:none;font-size:18px}
+.askbar .x{width:40px;height:40px;border-radius:50%;border:0;background:var(--night);color:#fff;cursor:pointer;flex:none;font-size:16px}
+.askmenu{position:absolute;bottom:calc(100% + 10px);left:0;right:48px;background:#fff;border-radius:16px;box-shadow:0 20px 50px rgba(20,18,43,.25);border:1px solid var(--line);padding:8px;display:flex;flex-direction:column}
+.askmenu[hidden]{display:none}
+.askmenu button{font-family:inherit;text-align:left;background:none;border:0;padding:11px 12px;border-radius:10px;font-size:15px;cursor:pointer;color:var(--ink)}
+.askmenu button:hover,.askmenu button:focus-visible{background:var(--vio-xl)}
+.askmenu small{padding:8px 12px 4px;color:var(--ink-3);font-size:12px}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+
+<div class="promo"><div class="wrap"><span><b>Founding builder offer:</b> 35% off for 2 years, for the first 10 builders</span><a href="#pricing">See plans →</a></div></div>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="#top"><img src="img/i3d-house.webp" alt="" width="34" height="34">saleshaus</a>
+  <nav class="nav" aria-label="Main">
+    <a href="#close">Close</a><a href="#keys">Keys</a><a href="#hausi">Hausi AI</a><a href="#pricing">Pricing</a><a href="#faq">Help</a>
+  </nav>
+  <div class="hdr-cta">
+    <button class="ask-pill" type="button" data-open-ask><img src="img/i3d-chat.webp" alt="" width="22" height="22">Ask Hausi</button>
+    <a class="login" href="#login">Log in</a>
+    <a class="btn btn-vio" href="#demo">Book a demo</a>
+  </div>
+</div></header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="floaty" data-depth="30" style="left:6%;top:16%"><img src="img/i3d-key.webp" alt=""></div>
+  <div class="floaty" data-depth="-24" style="right:7%;top:12%"><img src="img/i3d-coin.webp" alt="" style="animation-delay:-2s"></div>
+  <div class="floaty" data-depth="18" style="left:11%;top:58%;width:clamp(60px,7vw,110px)"><img src="img/i3d-calendar.webp" alt="" style="animation-delay:-1s"></div>
+  <div class="floaty" data-depth="-36" style="right:10%;top:56%"><img src="img/i3d-chat.webp" alt="" style="animation-delay:-3s"></div>
+  <div class="wrap">
+    <a class="chip rv" href="#hausi"><img src="img/i3d-chat.webp" alt="">Meet Hausi, our new AI assistant<b>›</b></a>
+    <h1 id="hero-h" class="rv">Sell homes faster. <span class="grad">Hand over keys smoother.</span></h1>
+    <p class="sub rv">The Sales and Post-Sales CRM made for Indian real estate builders. Leads, site visits, bookings, KYC, demands and handover, all in one place.</p>
+    <div class="offer rv"><span class="badge-off">−35%</span><span class="was">₹1,500</span><span class="now">₹999</span><span class="per">/ user / month</span></div>
+    <div class="hero-ctas rv"><a class="btn btn-vio" href="#demo">Book a free demo</a><a class="btn btn-ghost" href="#pricing">Compare plans</a></div>
+    <div class="hero-note rv"><span>500 free Hausi AI credits</span><span>Data stored in India</span><span>Free channel partner logins</span></div>
+    <div class="peek-zone">
+      <div class="peek" id="peek" role="img" aria-label="Hausi, the Saleshaus house mascot, peeking up and following your cursor">
+        <img class="peek-img" src="img/hausi-wave.webp" alt="">
+      </div>
+      <span class="peek-hint mono">psst… click me</span>
+    </div>
+  </div>
+  <div class="rainbow"></div>
+</section>
+
+<!-- WALKTHROUGH -->
+<section class="walk" aria-label="Product walkthrough">
+  <span class="pixels-corner" style="left:var(--gutter-l)"></span><span class="pixels-corner" style="right:calc(var(--gutter-r) + 10px)"></span>
+  <div class="wrap">
+    <div class="app" aria-live="polite">
+      <aside class="app-side" aria-hidden="true">
+        <span class="it on"><i></i>Leads</span><span class="it"><i></i>Site visits</span><span class="it"><i></i>Inventory</span><span class="it"><i></i>Bookings</span><span class="it"><i></i>KYC &amp; documents</span><span class="it"><i></i>Demands</span><span class="it"><i></i>Handover</span>
+        <span class="proj">Projects</span><span class="it"><i></i>Sample Heights</span><span class="it"><i></i>Sample Greens</span>
+      </aside>
+      <div class="app-col stage" id="colA"></div>
+      <div class="app-col stage" id="colB"></div>
+    </div>
+    <div class="steps" id="steps" role="group" aria-label="Walkthrough steps">
+      <button type="button" data-s="0">Capture the lead</button>
+      <button type="button" data-s="1">Hausi scores the call</button>
+      <button type="button" data-s="2">Book the site visit</button>
+      <button type="button" data-s="3">Close the booking</button>
+      <button type="button" data-s="4">Hand over the keys</button>
+      <button type="button" class="pause" id="walkPause" aria-label="Pause walkthrough">❚❚</button>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" id="ticker">
+  <div class="ticker-row" id="tickRow"></div>
+  <button class="tick-pause" type="button" id="tickPause" aria-label="Pause the activity strip">❚❚</button>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing" aria-labelledby="price-h">
+  <div class="wrap">
+    <span class="eyebrow rv">Founding prices</span>
+    <h2 id="price-h" class="h2 rv">Secure your founding price</h2>
+    <div class="seg rv" role="group" aria-label="Billing period">
+      <button type="button" class="on" data-bill="y" aria-pressed="true">Yearly <small>−35%</small></button>
+      <button type="button" data-bill="q" aria-pressed="false">Quarterly</button>
+    </div>
+    <div class="assure rv"><span>🔒 Data stored in India</span><span>🎧 Setup support included</span><span>🤝 Free channel partner logins</span></div>
+    <div class="plans">
+      <article class="plan rv">
+        <span class="off">35% off</span>
+        <img class="pi" src="img/i3d-phone.webp" alt="">
+        <h3>Close</h3>
+        <p class="d">Sales CRM for pre-sales and sales teams.</p>
+        <div><span class="was">₹1,500</span></div>
+        <div class="price"><span data-y="999" data-q="1,099">₹999</span><small> /user/mo</small></div>
+        <span class="bill" data-y="Billed yearly. GST extra." data-q="Billed every 3 months. GST extra.">Billed yearly. GST extra.</span>
+        <a class="btn btn-line" href="#demo">Choose plan</a>
+        <ul><li>Leads from portals, ads and partners</li><li>Call tracking and follow-ups</li><li>Site visits and virtual site visits</li><li>Inventory, cost sheets, bookings</li><li>Channel partner portal</li></ul>
+      </article>
+      <article class="plan pop rv">
+        <span class="off">Most popular · 35% off</span>
+        <img class="pi" src="img/i3d-house.webp" alt="">
+        <h3>Close + Keys</h3>
+        <p class="d">The full journey, from the first call till the keys.</p>
+        <div><span class="was">₹2,700</span></div>
+        <div class="price"><span data-y="1,799" data-q="1,979">₹1,799</span><small> /user/mo</small></div>
+        <span class="bill" data-y="Billed yearly. GST extra." data-q="Billed every 3 months. GST extra.">Billed yearly. GST extra.</span>
+        <a class="btn btn-vio" href="#demo">Choose plan</a>
+        <ul><li>Everything in Close and Keys</li><li>One buyer record, sales to handover</li><li>Owner dashboards and reports</li><li>500 free Hausi AI credits</li><li>Priority onboarding</li></ul>
+        <div class="why"><b>Why this plan?</b>Your sales and CRM teams share one buyer record, so nothing is lost at handover.</div>
+      </article>
+      <article class="plan rv">
+        <span class="off">35% off</span>
+        <img class="pi" src="img/i3d-key.webp" alt="">
+        <h3>Keys</h3>
+        <p class="d">Post-Sales CRM for CRM, accounts and legal teams.</p>
+        <div><span class="was">₹1,800</span></div>
+        <div class="price"><span data-y="1,199" data-q="1,319">₹1,199</span><small> /user/mo</small></div>
+        <span class="bill" data-y="Billed yearly. GST extra." data-q="Billed every 3 months. GST extra.">Billed yearly. GST extra.</span>
+        <a class="btn btn-line" href="#demo">Choose plan</a>
+        <ul><li>Secure KYC and document portal</li><li>Agreements and e-sign</li><li>Demand letters and collections</li><li>Customer meetings and reminders</li><li>Possession and handover</li></ul>
+      </article>
+    </div>
+    <p class="fine rv">Founding prices are locked for 2 years for the first 10 builders. Quarterly billing costs 10% more than yearly. Hausi AI credits beyond the free 500 are bought separately.</p>
+  </div>
+</section>
+
+<!-- FEATURES with sticky tabs -->
+<section class="feat" aria-labelledby="feat-h">
+  <div class="tabs-sticky"><nav class="tabs" aria-label="Products"><a href="#close" data-t="close" class="on">Close</a><a href="#keys" data-t="keys">Keys</a><a href="#hausi-f" data-t="hausi-f">Hausi</a></nav></div>
+  <div class="wrap">
+    <div class="feat-head"><span class="eyebrow rv">One platform</span><h2 id="feat-h" class="h2 rv">From first enquiry to the keys</h2><p class="lead rv">Two products that work alone or together, with Hausi AI built into both.</p></div>
+
+    <div class="block" id="close">
+      <div class="mock m1 rv" aria-hidden="true">
+        <img class="float3d" src="img/i3d-phone.webp" alt="" style="right:-10px;top:-14px;width:120px">
+        <div class="pipe">
+          <div class="pcol"><h4>New <span>12</span></h4><div class="ld"><b>Rohan M.</b><span>3 BHK · ₹1.2 Cr</span><div class="row"><span class="tag">99acres</span><small>2m ago</small></div></div><div class="ld"><b>Priya S.</b><span>2 BHK · ₹85 L</span><div class="row"><span class="tag p">Instagram</span><small>9m ago</small></div></div></div>
+          <div class="pcol"><h4>Site visit <span>5</span></h4><div class="ld"><b>Arjun K.</b><span>Sat · 11:00 am</span><div class="row"><span class="tag o">Virtual</span><small>Tower B</small></div></div></div>
+          <div class="pcol"><h4>Booked <span>3</span></h4><div class="ld"><b>Meera R.</b><span>B-1204 · ₹1.4 Cr</span><div class="row"><span class="tag g">Token paid</span></div></div></div>
+          <div class="ld mover"><b>Kavya N.</b><span>3 BHK · ₹1.1 Cr</span><div class="row"><span class="tag">Hot · 92</span><small>Partner</small></div></div>
+        </div>
+      </div>
+      <div class="txt">
+        <span class="eyebrow rv">Saleshaus Close</span>
+        <h3 class="rv">Never lose a lead again.</h3>
+        <p class="rv">Every enquiry from portals, ads and channel partners lands in one place, gets assigned, and gets followed up on time.</p>
+        <ul class="rv"><li><img src="img/i3d-calendar.webp" alt="">Site visits and virtual site visits, booked and reminded</li><li><img src="img/i3d-people.webp" alt="">Free logins for channel partners</li><li><img src="img/i3d-coin.webp" alt="">Live inventory, cost sheets and bookings</li></ul>
+        <a class="explore rv" href="#demo">See Close in a demo <span>→</span></a>
+      </div>
+    </div>
+
+    <div class="block rev" id="keys">
+      <div class="mock m2 rv" aria-hidden="true">
+        <img class="float3d" src="img/i3d-shield.webp" alt="" style="left:-6px;bottom:10px;width:120px;animation-delay:-2s">
+        <div class="kyc">
+          <div class="app-h">Unit B-1204 · Meera R. <span class="tag o">Restricted</span></div>
+          <div class="krow"><span class="box"></span>PAN card<span class="mask">XXXXX1234X</span></div>
+          <div class="krow"><span class="box"></span>Aadhaar<span class="mask">XXXX XXXX 4821</span></div>
+          <div class="krow"><span class="box"></span>Agreement for sale</div>
+          <div class="krow"><span class="box"></span>Home loan sanction</div>
+          <div class="krow"><span class="box"></span>Demand letter · Slab 4</div>
+        </div>
+        <div class="stamp">E-SIGNED<br>✓</div>
+      </div>
+      <div class="txt">
+        <span class="eyebrow rv">Saleshaus Keys</span>
+        <h3 class="rv">Paperwork, payments and possession, sorted.</h3>
+        <p class="rv">Buyers upload KYC through a secure link. Agreements go out for e-sign. Demands follow your construction stages.</p>
+        <ul class="rv"><li><img src="img/i3d-shield.webp" alt="">Encrypted KYC, stored in India, every view logged</li><li><img src="img/i3d-doc.webp" alt="">Agreements and e-sign</li><li><img src="img/i3d-chart.webp" alt="">Demand letters and collections tracking</li></ul>
+        <a class="explore rv" href="#demo">See Keys in a demo <span>→</span></a>
+      </div>
+    </div>
+
+    <div class="block" id="hausi-f">
+      <div class="mock m3 rv" aria-hidden="true">
+        <img class="float3d" src="img/i3d-chat.webp" alt="" style="right:-8px;top:-10px;width:120px;animation-delay:-1s">
+        <div class="chat" id="chatMock">
+          <div class="bub me">Rewrite this for WhatsApp in Hinglish: "Your site visit is confirmed for Saturday."</div>
+          <div class="bub hz"><img src="img/i3d-house.webp" alt=""><span id="typeOut" class="typing"></span></div>
+          <div class="chips2"><span>Shorter</span><span>More formal</span><span>Add location</span></div>
+        </div>
+      </div>
+      <div class="txt">
+        <span class="eyebrow rv">Hausi AI</span>
+        <h3 class="rv">An assistant that sells with you.</h3>
+        <p class="rv">Hausi drafts messages, scores calls and builds reports when you ask in plain words. It never sees customer documents.</p>
+        <ul class="rv"><li><img src="img/i3d-lang.webp" alt="">Hindi, English and Hinglish</li><li><img src="img/i3d-chart.webp" alt="">Reports from a simple question</li><li><img src="img/i3d-pin.webp" alt="">Nearby places and distances for buyers</li></ul>
+        <a class="explore rv" href="#hausi">Meet Hausi <span>→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIXEL RUN -->
+<div class="runband" id="runband" aria-hidden="true">
+  <span class="cap mono">▍from enquiry to keys</span>
+  <div class="pix" id="pix"></div>
+  <div class="runner" id="runner"><img src="img/hausi-run.webp" alt=""></div>
+</div>
+
+<!-- HAUSI AGENT -->
+<section class="agent" id="hausi" aria-labelledby="hausi-h">
+  <div class="wrap">
+    <div class="agent-top">
+      <div class="txt">
+        <span class="eyebrow rv">Hausi AI</span>
+        <h2 id="hausi-h" class="h2 rv">Your AI co-worker, built into Saleshaus.</h2>
+        <p class="rv">Hausi works for your team in your language. You buy credits only for what you use, and every builder starts with 500 free.</p>
+        <div class="credits rv"><span><b>500</b> free credits</span><span><b>Credit-based</b>, no surprise bills</span><span><b>No access</b> to customer documents</span></div>
+      </div>
+      <div class="hausi3d rv" id="hausi3d" role="img" aria-label="Hausi in 3D. Drag to turn it around.">
+        <img src="img/hausi-wave.webp" alt="" id="h3dFallback">
+        <span class="tip mono">drag to spin Hausi</span>
+      </div>
+    </div>
+    <div class="acc" id="acc">
+      <div class="ac on" tabindex="0" role="button" aria-expanded="true"><h4>Listens on calls</h4><div class="body"><div class="q">How did my call with Arjun go?</div><div class="a"><img src="img/i3d-house.webp" alt="">Score 82. He liked Tower B but asked about parking twice. Next step: send the parking plan today.</div></div><img class="pose" src="img/hausi-call.webp" alt=""></div>
+      <div class="ac" tabindex="0" role="button" aria-expanded="false"><h4>Drafts messages</h4><div class="body"><div class="q">Write a polite payment reminder for Slab 4.</div><div class="a"><img src="img/i3d-house.webp" alt="">Done, in English and Hindi. Want me to add the due amount and bank details?</div></div><img class="pose" src="img/hausi-thumbs.webp" alt=""></div>
+      <div class="ac" tabindex="0" role="button" aria-expanded="false"><h4>Answers buyers</h4><div class="body"><div class="q">How far is the nearest metro from the project?</div><div class="a"><img src="img/i3d-house.webp" alt="">I'll check the distance and nearby schools and hospitals, then share them with the buyer.</div></div><img class="pose" src="img/hausi-shrug.webp" alt=""></div>
+      <div class="ac" tabindex="0" role="button" aria-expanded="false"><h4>Builds reports</h4><div class="body"><div class="q">Show bookings by source this month.</div><div class="a"><img src="img/i3d-house.webp" alt="">Here's the chart. Channel partners brought the most bookings. Save it to your dashboard?</div></div><img class="pose" src="img/hausi-celebrate.webp" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES MARQUEE -->
+<div class="roles" aria-label="Teams that use Saleshaus"><div class="row" id="roles"></div></div>
+
+<!-- 3D ICON GRID -->
+<section class="icons" aria-labelledby="ic-h">
+  <div class="wrap">
+    <div style="display:flex;flex-direction:column;gap:12px"><span class="eyebrow rv">Everything included</span><h2 id="ic-h" class="h2 rv">Built for how builders really work</h2></div>
+    <div class="igrid">
+      <div class="ic rv"><img src="img/i3d-people.webp" alt=""><b>Lead capture</b><span>Portals, ads, walk-ins and partners in one list.</span></div>
+      <div class="ic rv"><img src="img/i3d-calendar.webp" alt=""><b>Site visits</b><span>Book, remind and record every visit.</span></div>
+      <div class="ic rv"><img src="img/i3d-doc.webp" alt=""><b>Agreements and e-sign</b><span>Generate, send and track signed documents.</span></div>
+      <div class="ic rv"><img src="img/i3d-coin.webp" alt=""><b>Demands and collections</b><span>Stage-wise demand letters and payment tracking.</span></div>
+      <div class="ic rv"><img src="img/i3d-chart.webp" alt=""><b>Owner dashboards</b><span>Bookings, collections and team performance.</span></div>
+      <div class="ic rv"><img src="img/i3d-shield.webp" alt=""><b>Secure KYC</b><span>Encrypted, stored in India, every view logged.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <div class="faq-head"><img src="img/hausi-shrug.webp" alt=""><div><span class="eyebrow">Help</span><h2 id="faq-h" class="h2" style="font-size:clamp(30px,4vw,46px)">Questions? Hausi has answers.</h2></div></div>
+    <details id="faq-buy"><summary>Can we buy only the Post-Sales CRM?</summary><p>Yes. Close and Keys are sold separately, and you can add the other one any time.</p></details>
+    <details id="faq-price"><summary>How long is the founding price locked?</summary><p>For 2 years from your start date, for the first 10 builders.</p></details>
+    <details id="faq-data"><summary>Where is our data stored?</summary><p>In India, on AWS in Mumbai, with encrypted backups in Hyderabad.</p></details>
+    <details id="faq-kyc"><summary>Does Hausi read our customers' KYC?</summary><p>No. Hausi has no access to customer documents.</p></details>
+    <details id="faq-credits"><summary>How do Hausi AI credits work?</summary><p>Every builder gets 500 free credits to try Hausi. After that, you buy credit packs and only the users your admin enables can use them.</p></details>
+    <details id="faq-setup"><summary>How long does setup take?</summary><p>[YOUR ONBOARDING TIME], including data import and team training.</p></details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="demo" aria-labelledby="demo-h">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#B7B0FF">Free 30-minute demo</span>
+    <h2 id="demo-h">Your next project, sold out.</h2>
+    <p>We'll show you Saleshaus with your own projects and inventory.</p>
+    <div class="contact"><span class="addr" id="addr">[YOUR EMAIL]</span><button class="btn btn-white" type="button" id="copyBtn">Copy email</button></div>
+    <div class="cta-stage" aria-hidden="true">
+      <div class="o" style="left:6%;top:30%"><img src="img/i3d-key.webp" alt=""></div>
+      <div class="o" style="left:22%;top:0"><img src="img/i3d-calendar.webp" alt="" style="animation-delay:-1s"></div>
+      <div class="o" style="right:22%;top:2%"><img src="img/i3d-doc.webp" alt="" style="animation-delay:-2s"></div>
+      <div class="o" style="right:6%;top:34%"><img src="img/i3d-coin.webp" alt="" style="animation-delay:-3s"></div>
+      <img class="m" src="img/hausi-celebrate.webp" alt="">
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <div><b style="font-size:22px;letter-spacing:-.04em">saleshaus</b>The CRM for Indian real estate builders.</div>
+  <div><b>Products</b><a href="#close">Saleshaus Close</a><a href="#keys">Saleshaus Keys</a><a href="#hausi">Hausi AI</a><a href="#pricing">Pricing</a></div>
+  <div><b>Company</b><a href="#about">About</a><a href="#security">Security</a><a href="#privacy">Privacy policy</a><a href="#terms">Terms</a></div>
+  <div><b>Contact</b><span>Bengaluru, India</span><br><span>[YOUR EMAIL]</span><br><span>[YOUR PHONE]</span></div>
+  <div class="legal"><span>© 2026 Saleshaus Private Limited</span><span>Prices exclude GST.</span></div>
+</div></footer>
+
+<!-- ASK HAUSI -->
+<div class="askbar" id="askbar">
+  <button type="button" class="bar" id="askBtn" aria-haspopup="true" aria-expanded="false"><img src="img/i3d-chat.webp" alt=""><span class="q" id="askQ">Which plan fits my sales team?</span><span class="go" aria-hidden="true">↑</span></button>
+  <button type="button" class="x" id="askX" aria-label="Hide Ask Hausi">✕</button>
+  <div class="askmenu" id="askMenu" hidden></div>
+</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script>
+document.documentElement.classList.add('js');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* reveal */
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*70+'ms';io.observe(el)});
+setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight)el.classList.add('in')}),60);
+
+/* hero parallax */
+const floaties=[...document.querySelectorAll('.floaty')];
+let mx=0,my=0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;if(!reduce)floaties.forEach(f=>{const d=+f.dataset.depth;f.style.transform=`translate(${mx*d}px,${my*d}px)`})},{passive:true});
+
+/* walkthrough */
+const steps=[
+ {a:`<div class="app-h">New lead <span class="tag">99acres</span></div><div class="card"><b>Kavya N.</b><span>3 BHK · Budget ₹1.1 Cr · Whitefield</span><small>Assigned to Rahul · just now</small></div><div class="log"><span>Duplicate check: no match</span><span>Auto-assigned by round robin</span><span>Welcome message sent</span></div>`,
+  b:`<div class="app-h">Follow-up plan</div><div class="card"><b>Call within 5 minutes</b><small>Leads called in 5 minutes convert better</small></div><div class="card"><b>Send brochure</b><small>Tower B · 3 BHK floor plans</small></div>`},
+ {a:`<div class="app-h">Call with Kavya · 6m 12s <span class="tag">Hausi</span></div><div class="msg h"><img src="img/i3d-house.webp" alt=""><span>She wants a 3 BHK above the 10th floor, east facing. Worried about the loan process.</span></div><div class="log"><span>Budget confirmed: ₹1.1 Cr</span><span>Objection: home loan</span></div>`,
+  b:`<div class="app-h">Call score</div><div class="score"><div class="ring" style="--p:86"><b>86</b></div><div><b>Hot lead</b><br><small style="color:var(--ink-3)">Ready for a site visit</small></div></div><div class="card"><b>Next step</b><span>Offer a site visit this Saturday and share our bank partners.</span></div>`},
+ {a:`<div class="app-h">Site visit <span class="tag o">Saturday</span></div><div class="card"><b>Sat, 11:00 am · Tower B</b><span>Kavya N. + family (4)</span><small>Pickup from Marathahalli</small></div><div class="log"><span>Reminder set for Friday 6 pm</span><span>Sales manager notified</span></div>`,
+  b:`<div class="app-h">Message to buyer <span class="tag">Drafted by Hausi</span></div><div class="msg">Namaste Kavya ji! Aapki site visit Saturday 11 baje confirm hai. Tower B ka location pin bhej rahe hain. 🏡</div><div class="card"><small>Sent · Read 2 min ago</small></div>`},
+ {a:`<div class="app-h">Booking <span class="tag g">Token received</span></div><div class="card"><b>Unit B-1204 · 3 BHK</b><span>₹1,08,50,000 · East facing · 12th floor</span><small>Cost sheet v2 approved</small></div><div class="log"><span>Unit blocked in inventory</span><span>Partner commission recorded</span></div>`,
+  b:`<div class="app-h">Moved to Keys <span class="tag">Post-Sales</span></div><div class="card"><b>KYC link sent</b><small>Secure upload · expires in 7 days</small></div><div class="card"><b>Agreement for sale</b><small>Ready for e-sign</small></div>`},
+ {a:`<div class="app-h">Handover <span class="tag g">Ready</span></div><div class="card"><b>All demands paid</b><small>Slabs 1 to 8 cleared</small></div><div class="log"><span>Snag list closed</span><span>Possession letter generated</span><span>Handover booked for Sunday</span></div>`,
+  b:`<div class="app-h">Keys handed over 🎉</div><div class="card" style="align-items:center;text-align:center"><img src="img/i3d-key.webp" alt="" style="width:120px"><b>Welcome home, Kavya!</b><small>One buyer record, enquiry to keys</small></div>`}
+];
+const colA=document.getElementById('colA'),colB=document.getElementById('colB'),stepWrap=document.getElementById('steps');
+const stepBtns=[...stepWrap.querySelectorAll('[data-s]')];let cur=0,paused=reduce,timer;const DUR=5200;
+function show(i){cur=i;[colA,colB].forEach(c=>c.classList.add('out'));setTimeout(()=>{colA.innerHTML=steps[i].a;colB.innerHTML=steps[i].b;[colA,colB].forEach(c=>c.classList.remove('out'))},250);
+ stepBtns.forEach((b,j)=>{b.classList.toggle('on',j===i);b.setAttribute('aria-pressed',j===i);if(j===i){b.style.setProperty('--dur',DUR+'ms');b.classList.remove('on');void b.offsetWidth;b.classList.add('on')}});
+ clearTimeout(timer);if(!paused)timer=setTimeout(()=>show((cur+1)%steps.length),DUR)}
+stepBtns.forEach(b=>b.addEventListener('click',()=>show(+b.dataset.s)));
+const wp=document.getElementById('walkPause');
+function setPause(p){paused=p;stepWrap.classList.toggle('paused',p);wp.textContent=p?'▶':'❚❚';wp.setAttribute('aria-label',p?'Play walkthrough':'Pause walkthrough');clearTimeout(timer);if(!p)timer=setTimeout(()=>show((cur+1)%steps.length),DUR)}
+wp.addEventListener('click',()=>setPause(!paused));
+show(0);if(reduce)setPause(true);
+
+/* ticker */
+const tk=[
+ ['i3d-calendar','Site visit booked','Tower B · example'],['stat','2-in-1','Sales + Post-Sales CRM'],['i3d-doc','Agreement e-signed','Unit B-1204 · example'],
+ ['i3d-coin','Demand letter sent','Slab 4 · example'],['stat','500','free Hausi AI credits'],['i3d-people','New partner lead','Channel partner · example'],
+ ['i3d-key','Keys handed over','Unit A-0902 · example'],['stat','35%','founding discount'],['i3d-chat','Follow-up drafted','In Hinglish · example'],['stat','🇮🇳','data stored in India']];
+const tkHTML=tk.map(([i,a,b])=>i==='stat'?`<div class="tk stat"><b>${a}</b><small>${b}</small></div>`:`<div class="tk"><b><img src="img/${i}.webp" alt="">${a}</b><small>${b}</small></div>`).join('');
+document.getElementById('tickRow').innerHTML=tkHTML+tkHTML;
+const tkEl=document.getElementById('ticker'),tp=document.getElementById('tickPause');
+tp.addEventListener('click',()=>{const p=tkEl.classList.toggle('paused');tp.textContent=p?'▶':'❚❚';tp.setAttribute('aria-label',p?'Play the activity strip':'Pause the activity strip')});
+
+/* roles marquee */
+const roles=['Pre-sales','Sales','Channel partners','Site team','CRM team','Accounts','Legal','Owners'];
+const rh=roles.map(r=>`<span>${r}</span>`).join('');document.getElementById('roles').innerHTML=rh+rh;
+
+/* billing toggle */
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+ const k=b.dataset.bill;document.querySelectorAll('.seg button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});
+ document.querySelectorAll('.price span[data-y]').forEach(s=>s.textContent='₹'+s.dataset[k]);
+ document.querySelectorAll('.bill').forEach(s=>s.textContent=s.dataset[k]);
+ document.querySelectorAll('.plan .off').forEach(o=>{o.style.visibility=k==='y'?'visible':'hidden'});
+}));
+
+/* sticky tabs */
+const tabLinks=[...document.querySelectorAll('.tabs a')];
+const tio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)tabLinks.forEach(a=>a.classList.toggle('on',a.dataset.t===e.target.id))}),{rootMargin:'-45% 0px -45% 0px'});
+['close','keys','hausi-f'].forEach(id=>tio.observe(document.getElementById(id)));
+
+/* typing */
+const typeTxt='Hi Kavya ji! 😊 Aapki site visit Saturday 11 baje confirm hai. Location pin bhej rahe hain, milte hain!';
+const tEl=document.getElementById('typeOut');let ti=0,typing=false;
+function typeLoop(){if(ti<=typeTxt.length){tEl.textContent=typeTxt.slice(0,ti++);setTimeout(typeLoop,32)}else setTimeout(()=>{ti=0;typeLoop()},3200)}
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting&&!typing){typing=true;if(reduce)tEl.textContent=typeTxt;else typeLoop();o.disconnect()}}).observe(document.getElementById('chatMock'));
+
+/* pixel run */
+const pix=document.getElementById('pix'),band=document.getElementById('runband'),runner=document.getElementById('runner');
+const cols=innerWidth<700?20:48,rows=8;pix.style.setProperty('--cols',cols);
+const cells=[];for(let i=0;i<cols*rows;i++){const c=document.createElement('i');const r=Math.random();if(r<.25)c.classList.add('dim');pix.appendChild(c);cells.push(c)}
+const pal=['#5B4FE9','#8F86F5','#C9C4FA','#F06BA8','#4FA3F7','#E0A92E','#B7A6FF','#1F8A4C'];
+let runT0=null,running=false;
+function runFrame(t){if(!runT0)runT0=t;const W=band.clientWidth,p=Math.min(1,(t-runT0)/5200),x=-180+p*(W+360);runner.style.transform=`translateX(${x}px)`;
+ const col=Math.floor((x+60)/W*cols);for(let r=0;r<rows;r++){for(let dc=-2;dc<=0;dc++){const cc=col+dc;if(cc<0||cc>=cols)continue;if(Math.random()<.55){const c=cells[r*cols+cc];if(!c.classList.contains('lit')){c.classList.add('lit');c.style.background=pal[(Math.random()*pal.length)|0]}}}}
+ if(p<1)requestAnimationFrame(runFrame);else{running=false;setTimeout(()=>cells.forEach(c=>{c.classList.remove('lit');c.style.background=''}),2600)}}
+new IntersectionObserver(es=>{if(es[0].isIntersecting&&!running&&!reduce){running=true;runT0=null;requestAnimationFrame(runFrame)}},{threshold:.6}).observe(band);
+
+/* accordion */
+const acs=[...document.querySelectorAll('.ac')];let ai=0,aTimer;
+function openAc(i){ai=i;acs.forEach((a,j)=>{a.classList.toggle('on',j===i);a.setAttribute('aria-expanded',j===i)});clearTimeout(aTimer);if(!reduce)aTimer=setTimeout(()=>openAc((ai+1)%acs.length),6000)}
+acs.forEach((a,i)=>{a.addEventListener('click',()=>openAc(i));a.addEventListener('mouseenter',()=>openAc(i));a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openAc(i)}})});
+openAc(0);
+
+/* copy */
+document.getElementById('copyBtn').addEventListener('click',async e=>{const t=document.getElementById('addr').textContent,b=e.currentTarget;
+ try{await navigator.clipboard.writeText(t);b.textContent='Copied'}catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('addr'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected, press copy'}
+ setTimeout(()=>b.textContent='Copy email',2200)});
+
+/* Ask Hausi */
+const QS=[['Which plan fits my sales team?','#pricing'],['Can I buy only the Post-Sales CRM?','#faq-buy'],['Where is our data stored?','#faq-data'],['Does Hausi read customer KYC?','#faq-kyc'],['How do Hausi credits work?','#faq-credits'],['Can I see it with my own project?','#demo']];
+const askbar=document.getElementById('askbar'),askQ=document.getElementById('askQ'),askBtn=document.getElementById('askBtn'),askMenu=document.getElementById('askMenu');
+askMenu.innerHTML='<small>Ask Hausi. Pick a question:</small>'+QS.map((q,i)=>`<button type="button" data-i="${i}">${q[0]}</button>`).join('');
+let qi=0;setInterval(()=>{if(reduce||!askMenu.hidden)return;askQ.classList.add('swap');setTimeout(()=>{qi=(qi+1)%QS.length;askQ.textContent=QS[qi][0];askQ.classList.remove('swap')},300)},3400);
+function goQ(i){const [_,h]=QS[i];const el=document.querySelector(h);askMenu.hidden=true;askBtn.setAttribute('aria-expanded','false');if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})}}
+askBtn.addEventListener('click',()=>{const o=askMenu.hidden;askMenu.hidden=!o;askBtn.setAttribute('aria-expanded',o)});
+askMenu.addEventListener('click',e=>{const b=e.target.closest('button');if(b)goQ(+b.dataset.i)});
+document.getElementById('askX').addEventListener('click',()=>{askbar.classList.remove('show');askbar.dataset.closed='1'});
+document.querySelectorAll('[data-open-ask]').forEach(b=>b.addEventListener('click',()=>{delete askbar.dataset.closed;askbar.classList.add('show');askMenu.hidden=false;askBtn.setAttribute('aria-expanded','true')}));
+addEventListener('scroll',()=>{if(!askbar.dataset.closed)askbar.classList.toggle('show',scrollY>500)},{passive:true});
+document.addEventListener('click',e=>{if(!askbar.contains(e.target)&&!e.target.closest('[data-open-ask]')){askMenu.hidden=true;askBtn.setAttribute('aria-expanded','false')}});
+
+/* sparks on peek click (works with or without 3D) */
+const sparkImgs=['i3d-key','i3d-coin','i3d-chat','i3d-calendar','i3d-house','i3d-doc'];
+window.burst=(x,y)=>{if(reduce)return;for(let i=0;i<7;i++){const s=document.createElement('img');s.src='img/'+sparkImgs[i%sparkImgs.length]+'.webp';s.className='spark';s.alt='';document.body.appendChild(s);
+ const a=-Math.PI/2+(Math.random()-.5)*2.2,d=110+Math.random()*120;s.animate([{transform:`translate(${x-22}px,${y-22}px) scale(.3)`,opacity:1},{transform:`translate(${x-22+Math.cos(a)*d}px,${y-22+Math.sin(a)*d}px) scale(1) rotate(${(Math.random()-.5)*90}deg)`,opacity:1,offset:.7},{transform:`translate(${x-22+Math.cos(a)*d}px,${y+40+Math.sin(a)*d}px) scale(.8)`,opacity:0}],{duration:1300,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>s.remove()}};
+const peekEl=document.getElementById('peek');
+peekEl.addEventListener('click',e=>{burst(e.clientX,e.clientY);peekEl.dispatchEvent(new CustomEvent('hop'))});
+/* fallback peek image follows a little */
+const pimg=peekEl.querySelector('.peek-img');
+new IntersectionObserver(es=>{if(es[0].isIntersecting)pimg.style.transform='translateY(20%)'},{threshold:.3}).observe(peekEl);
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let buf;
+try{
+  const txt=await (await fetch('hausi-model.txt')).text();
+  const bin=atob(txt.trim());const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);buf=u.buffer;
+}catch(e){console.warn('model not loaded',e)}
+if(buf){
+  const gltf=await new Promise((res,rej)=>new GLTFLoader().parse(buf,'',res,rej));
+  const base=gltf.scene;
+  function makeRenderer(el){
+    const r=new THREE.WebGLRenderer({antialias:true,alpha:true});
+    r.setPixelRatio(Math.min(devicePixelRatio,2));r.outputColorSpace=THREE.SRGBColorSpace;r.toneMapping=THREE.ACESFilmicToneMapping;r.toneMappingExposure=0.85;
+    el.appendChild(r.domElement);return r;
+  }
+  function makeScene(r){
+    const sc=new THREE.Scene();const pm=new THREE.PMREMGenerator(r);sc.environment=pm.fromScene(new RoomEnvironment(),0.04).texture;
+    const d=new THREE.DirectionalLight('#ffffff',1.4);d.position.set(2,4,3);sc.add(d);sc.add(new THREE.HemisphereLight('#ffffff','#7a70f0',.5));return sc;
+  }
+  /* PEEK */
+  const peek=document.getElementById('peek');
+  {
+    const r=makeRenderer(peek);const sc=makeScene(r);
+    const pivot=new THREE.Group();const m=base.clone(true);m.position.set(0.1,0,0);pivot.add(m);
+    const holder=new THREE.Group();holder.add(pivot);sc.add(holder);
+    const cam=new THREE.PerspectiveCamera(24,1,0.1,50);
+    function size(){const w=peek.clientWidth,h=peek.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;
+      const vis=0.98;const dist=(vis/2)/Math.tan(THREE.MathUtils.degToRad(cam.fov/2));cam.position.set(0,0.74,dist);cam.lookAt(0,0.74,0);cam.updateProjectionMatrix()}
+    size();addEventListener('resize',size);
+    peek.querySelector('.peek-img').remove();
+    let rise=reduce?1:0,riseT=reduce?1:0,tx=0,ty=0,rx=0,ry=0,hop=0,visible=false;
+    new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible)riseT=1}).observe(peek);
+    addEventListener('pointermove',e=>{const b=peek.getBoundingClientRect();const cx=b.left+b.width/2,cy=b.top+b.height*.4;
+      ty=THREE.MathUtils.clamp((e.clientX-cx)/innerWidth*2.2,-0.9,0.9);tx=THREE.MathUtils.clamp((e.clientY-cy)/innerHeight*1.2,-0.35,0.45)},{passive:true});
+    peek.addEventListener('hop',()=>{hop=1});
+    const clock=new THREE.Clock();
+    (function loop(){requestAnimationFrame(loop);if(!visible)return;const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
+      rise+=(riseT-rise)*Math.min(1,dt*3);ry+=(ty-ry)*Math.min(1,dt*5);rx+=(tx-rx)*Math.min(1,dt*5);hop=Math.max(0,hop-dt*1.6);
+      const hopY=Math.sin((1-hop)*Math.PI)*(hop>0?0.28:0);
+      holder.position.y=-0.9*(1-rise)+(reduce?0:Math.sin(t*1.6)*0.015)+hopY;
+      pivot.rotation.y=ry;pivot.rotation.x=rx;pivot.rotation.z=(reduce?0:Math.sin(t*1.1)*0.03)-ry*0.06;
+      r.render(sc,cam)})();
+  }
+  /* SPIN viewer */
+  const box=document.getElementById('hausi3d');
+  {
+    const r=makeRenderer(box);const sc=makeScene(r);
+    const m=base.clone(true);const bb=new THREE.Box3().setFromObject(m);const c=bb.getCenter(new THREE.Vector3());m.position.sub(c);
+    const g=new THREE.Group();g.add(m);sc.add(g);
+    const sh=new THREE.Mesh(new THREE.CircleGeometry(0.55,48),new THREE.MeshBasicMaterial({color:'#000',transparent:true,opacity:.28}));sh.rotation.x=-Math.PI/2;sh.position.y=bb.min.y-c.y-0.005;sh.scale.set(1,.55,1);sc.add(sh);
+    const cam=new THREE.PerspectiveCamera(30,1,0.1,50);cam.position.set(0,0.25,4.1);cam.lookAt(0,0,0);
+    function size(){const w=box.clientWidth,h=box.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+    size();addEventListener('resize',size);document.getElementById('h3dFallback').remove();
+    let drag=false,lx=0,vel=reduce?0:0.6,rotY=0.3,visible=false;
+    new IntersectionObserver(es=>visible=es[0].isIntersecting).observe(box);
+    box.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;box.setPointerCapture(e.pointerId);box.style.cursor='grabbing'});
+    box.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-lx;lx=e.clientX;rotY+=dx*0.012;vel=dx*0.6});
+    const up=()=>{drag=false;box.style.cursor='grab'};box.addEventListener('pointerup',up);box.addEventListener('pointercancel',up);
+    const clock=new THREE.Clock();
+    (function loop(){requestAnimationFrame(loop);if(!visible)return;const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
+      if(!drag){vel+=((reduce?0:0.6)-vel)*Math.min(1,dt*1.5);rotY+=vel*dt}
+      g.rotation.y=rotY;g.position.y=reduce?0:Math.sin(t*1.8)*0.05;r.render(sc,cam)})();
+  }
+}
+</script>
+
+</body>
+</html>
