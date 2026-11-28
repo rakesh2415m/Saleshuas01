@@ -344,6 +344,36 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
 .askmenu small{padding:8px 12px 4px;color:var(--ink-3);font-size:12px}
 
 
+/* add-ons + partners */
+.addons{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;width:100%;text-align:left}
+.addon{display:flex;gap:16px;align-items:flex-start;padding:22px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--night-line)}
+.addon img{width:72px;height:72px;flex:none;margin:-6px 0 0 -6px}
+.addon h3{font-size:19px;font-weight:700;margin:0}
+.addon .p{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:2px 0}
+.addon .p small{font-size:14px;font-weight:500;color:#B9B5DD}
+.addon p{margin:0;color:#C9C6E6;font-size:14px}
+.addon ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;font-size:14px;color:#DEDBF5}
+.addon li::before{content:"✓  ";color:#9C93FF;font-weight:800}
+.partners{background:var(--mist);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+.partners .wrap{padding-block:100px;display:flex;flex-direction:column;gap:32px}
+.pt-head{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between}
+.pt-head .txt{display:flex;flex-direction:column;gap:12px;max-width:640px;min-width:0}
+.pt-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:start}
+.pt-plan{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:10px}
+.pt-plan.main{border:2px solid var(--vio);box-shadow:0 24px 60px rgba(91,79,233,.16)}
+.pt-plan h3{margin:0;font-size:22px}
+.pt-plan .price{font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.pt-plan .price small{font-size:15px;font-weight:500;color:var(--ink-2);letter-spacing:0}
+.pt-plan .was{color:var(--ink-3);text-decoration:line-through;font-size:14px}
+.pt-plan ul{list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 18px;font-size:15px;color:var(--ink-2)}
+.pt-plan li{display:flex;gap:10px}
+.pt-plan li::before{content:"✓";color:var(--vio);font-weight:800}
+.pt-plan .btn{align-self:flex-start}
+.pt-feats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.pt-feats .ic{padding:18px}
+@media (max-width:900px){.pt-grid{grid-template-columns:minmax(0,1fr)}.pt-feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.partners .wrap{padding-block:64px;gap:22px}.addon{padding:18px}.pt-plan .btn{align-self:stretch}}
+
 /* ===== Mobile ===== */
 .menu-btn{display:none;width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;place-items:center;font-size:20px;line-height:1}
 .ask-fab{display:none}
@@ -464,7 +494,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
 <header class="top"><div class="wrap">
   <a class="logo" href="#top">saleshaus</a>
   <nav class="nav" id="mainNav" aria-label="Main">
-    <a href="#close">Close</a><a href="#keys">Keys</a><a href="#hausi">Hausi AI</a><a href="#pricing">Pricing</a><a href="#faq">Help</a>
+    <a href="#close">Close</a><a href="#keys">Keys</a><a href="#hausi">Hausi AI</a><a href="#pricing">Pricing</a><a href="#partners">For partners</a><a href="#faq">Help</a>
   </nav>
   <div class="hdr-cta">
         <button class="ask-pill" type="button" data-open-ask><img src="img/i3d-chat.webp" alt="" width="22" height="22">Ask Hausi</button>
@@ -487,7 +517,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
     <p class="sub rv">The Sales and Post-Sales CRM made for Indian real estate builders. Leads, site visits, bookings, KYC, demands and handover, all in one place.</p>
     <div class="offer rv"><span class="badge-off">−35%</span><span class="was">₹1,500</span><span class="now">₹999</span><span class="per">/ user / month</span></div>
     <div class="hero-ctas rv"><a class="btn btn-vio" href="#demo">Book a free demo</a><a class="btn btn-ghost" href="#pricing">Compare plans</a></div>
-    <div class="hero-note rv"><span>500 free Hausi AI credits</span><span>Data stored in India</span><span>Free channel partner logins</span></div>
+    <div class="hero-note rv"><span>500 free Hausi AI credits</span><span>Data stored in India</span><span>Unlimited partner logins</span></div>
     <div class="peek-zone">
       <div class="peek" id="peek" role="img" aria-label="Hausi, the Saleshaus house mascot, peeking up and following your cursor">
         <img class="peek-img" src="img/hausi-wave.webp" alt="">
@@ -536,7 +566,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
       <button type="button" class="on" data-bill="y" aria-pressed="true">Yearly <small>−35%</small></button>
       <button type="button" data-bill="q" aria-pressed="false">Quarterly</button>
     </div>
-    <div class="assure rv"><span>🔒 Data stored in India</span><span>🎧 Setup support included</span><span>🤝 Free channel partner logins</span></div>
+    <div class="assure rv"><span>🔒 Data stored in India</span><span>🎧 Setup support included</span><span>🤝 No setup or platform fee</span></div>
     <div class="plans">
       <article class="plan rv">
         <span class="off">35% off</span>
@@ -547,7 +577,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
         <div class="price"><span data-y="999" data-q="1,099">₹999</span><small> /user/mo</small></div>
         <span class="bill" data-y="Billed yearly. No setup fee." data-q="Billed every 3 months. No setup fee.">Billed yearly. No setup fee.</span>
         <a class="btn btn-line" href="#demo">Choose plan</a>
-        <ul><li>Leads from portals, ads and partners</li><li>Call tracking and follow-ups</li><li>Site visits and virtual site visits</li><li>Inventory, cost sheets, bookings</li><li>Channel partner portal</li></ul>
+        <ul><li>Leads from portals, ads and partners</li><li>Call tracking and follow-ups</li><li>Site visits and virtual site visits</li><li>Inventory, cost sheets, bookings</li><li>Owner reports</li></ul>
       </article>
       <article class="plan pop rv">
         <span class="off">Most popular · 35% off</span>
@@ -574,7 +604,43 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
       </article>
     </div>
     <div class="dots" id="planDots" aria-hidden="true"></div>
-    <p class="fine rv">Founding prices are locked for 2 years for the first 10 builders. Quarterly billing costs 10% more than yearly. Hausi AI credits beyond the free 500 are bought separately.</p>
+    <div class="addons">
+      <div class="addon rv"><img src="img/i3d-people.webp" alt=""><div><h3>Partner Network add-on</h3><div class="p">₹4,999<small> /month, up to 3 projects</small></div><p>+₹1,499 a month for each extra project. Unlimited partner logins, always free.</p><ul><li>Partner sign-up and approval</li><li>Lead registration with duplicate check</li><li>Commission tracking and payouts</li><li>Partner portal with your inventory</li></ul></div></div>
+      <div class="addon rv"><img src="img/i3d-chat.webp" alt=""><div><h3>Credits for Hausi AI and email</h3><div class="p">₹1<small> = 1 credit, prepaid</small></div><p>No platform fee. Pay only for what your team uses. Credits stay valid for 12 months.</p><ul><li>Packs of ₹1,000, ₹5,000 (+10%) and ₹20,000 (+15%)</li><li>Email: 10 emails per credit</li><li>500 free Hausi credits to start</li><li>E-sign and WhatsApp from the same wallet, later</li></ul></div></div>
+    </div>
+    <p class="fine rv">Founding prices are locked for 2 years for the first 10 builders. Quarterly billing costs 10% more than yearly. Hausi AI and email run on prepaid credits, with no platform fee.</p>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners" aria-labelledby="pt-h">
+  <div class="wrap">
+    <div class="pt-head">
+      <div class="txt"><span class="eyebrow rv">For channel partners</span><h2 id="pt-h" class="h2 rv">Saleshaus Partner: the CRM for brokers</h2><p class="lead rv">Everything builders get in Close, plus what brokers need to run their own business: projects from any builder, commission rules, bills and payments.</p></div>
+      <a class="btn btn-vio rv" href="#demo">Join as a partner</a>
+    </div>
+    <div class="pt-grid">
+      <article class="pt-plan rv">
+        <h3>Partner Free</h3>
+        <div class="price">₹0<small> forever</small></div>
+        <p style="margin:0;color:var(--ink-2)">For brokers working with builders on Saleshaus.</p>
+        <ul><li>1 user</li><li>Register leads with Saleshaus builders</li><li>See lead status and site visits</li><li>See your commissions and payouts</li></ul>
+      </article>
+      <article class="pt-plan main rv">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><h3>Partner</h3><span class="tag">Founding price</span></div>
+        <div><span class="was">₹999</span></div>
+        <div class="price">₹699<small> /user/month</small></div>
+        <p style="margin:0;color:var(--ink-2)">Billed monthly, or yearly with 2 months free.</p>
+        <ul><li>Full CRM: leads, calls, follow-ups, site visits</li><li>Add projects from any builder</li><li>Commission rules per project</li><li>Bills with or without GST</li><li>Payments, pending and TDS tracking</li><li>Team, reports and Hausi AI credits</li></ul>
+        <a class="btn btn-vio" href="#demo">Start with Partner</a>
+      </article>
+    </div>
+    <div class="pt-feats">
+      <div class="ic rv"><img src="img/i3d-house.webp" alt=""><b>Any builder's projects</b><span>Add projects and price lists yourself. Saleshaus builders sync on their own.</span></div>
+      <div class="ic rv"><img src="img/i3d-percent.webp" alt=""><b>Commission rules</b><span>Percent of value, slabs, or paid at booking, agreement and registration.</span></div>
+      <div class="ic rv"><img src="img/i3d-doc.webp" alt=""><b>Bills in one click</b><span>Raised when a milestone is reached, and sent straight to the builder.</span></div>
+      <div class="ic rv"><img src="img/i3d-coin.webp" alt=""><b>Get paid faster</b><span>Invoiced, received and pending in one view, with TDS worked out.</span></div>
+    </div>
   </div>
 </section>
 
@@ -598,7 +664,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid var(--night-line);padding-to
         <span class="eyebrow rv">Saleshaus Close</span>
         <h3 class="rv">Never lose a lead again.</h3>
         <p class="rv">Every enquiry from portals, ads and channel partners lands in one place, gets assigned, and gets followed up on time.</p>
-        <ul class="rv"><li><img src="img/i3d-calendar.webp" alt="">Site visits and virtual site visits, booked and reminded</li><li><img src="img/i3d-people.webp" alt="">Free logins for channel partners</li><li><img src="img/i3d-coin.webp" alt="">Live inventory, cost sheets and bookings</li></ul>
+        <ul class="rv"><li><img src="img/i3d-calendar.webp" alt="">Site visits and virtual site visits, booked and reminded</li><li><img src="img/i3d-people.webp" alt="">Partner Network add-on with unlimited partner logins</li><li><img src="img/i3d-coin.webp" alt="">Live inventory, cost sheets and bookings</li></ul>
         <a class="explore rv" href="#demo">See Close in a demo <span>→</span></a>
       </div>
     </div>
@@ -836,7 +902,7 @@ document.getElementById('copyBtn').addEventListener('click',async e=>{const t=do
  setTimeout(()=>b.textContent='Copy email',2200)});
 
 /* Ask Hausi */
-const QS=[['Which plan fits my sales team?','#pricing'],['Can I buy only the Post-Sales CRM?','#faq-buy'],['Where is our data stored?','#faq-data'],['Does Hausi read customer KYC?','#faq-kyc'],['How do Hausi credits work?','#faq-credits'],['Can I see it with my own project?','#demo']];
+const QS=[['Which plan fits my sales team?','#pricing'],['Can I buy only the Post-Sales CRM?','#faq-buy'],['Where is our data stored?','#faq-data'],['Does Hausi read customer KYC?','#faq-kyc'],['How do Hausi credits work?','#faq-credits'],['Is there a CRM for brokers?','#partners'],['Can I see it with my own project?','#demo']];
 const askbar=document.getElementById('askbar'),askQ=document.getElementById('askQ'),askBtn=document.getElementById('askBtn'),askMenu=document.getElementById('askMenu');
 askMenu.innerHTML='<small>Ask Hausi. Pick a question:</small>'+QS.map((q,i)=>`<button type="button" data-i="${i}">${q[0]}</button>`).join('');
 let qi=0;setInterval(()=>{if(reduce||!askMenu.hidden)return;askQ.classList.add('swap');setTimeout(()=>{qi=(qi+1)%QS.length;askQ.textContent=QS[qi][0];askQ.classList.remove('swap')},300)},3400);
